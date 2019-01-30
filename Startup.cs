@@ -30,21 +30,27 @@ namespace DigitalSignage
             services.AddSingleton<AuthenticationToken>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.Configure<ConnectInfo>(Configuration.GetSection("ConnectInfo"));
+            services.AddSpaStaticFiles( c =>
+            {
+                c.RootPath = "wwwroot";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
+            app.UseMvcWithDefaultRoute();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+            app.UseSpaStaticFiles();
+            app.UseSpa(spa => 
             {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseHsts();
-            }
-
-            app.UseMvc();
+                spa.Options.SourcePath = "wwwroot";
+                if (env.IsDevelopment())
+                {
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
+                }
+            });
         }
     }
 }
