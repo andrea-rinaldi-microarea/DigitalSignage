@@ -1,3 +1,14 @@
-<div >
-  <i class="text-primary fa fa-spinner fa-spin" placement="left" ngbTooltip="connecting ..."></i>
+<div class="navbar-nav">
+    <div *ngIf="status === connectionStatus.connecting" placement="left" ngbTooltip="connecting ...">
+      <i class="text-primary fa fa-spinner fa-spin"></i>
+    </div>
+    <div *ngIf="status === connectionStatus.connected"  placement="left" ngbTooltip="Connected to Mago">
+      <i class="text-success fa fa-check-square"></i>
+    </div>
+    <div *ngIf="status === connectionStatus.connectionError" placement="left" ngbTooltip="Mago4 not responding, please check your configuration">
+      <i class="text-danger fa fa-exclamation-triangle"></i>
+    </div>
+    <div *ngIf="status === connectionStatus.notConnected" placement="left" ngbTooltip="Not Connected">
+      <i class="text-muted fa fa-times"></i>
+    </div>
 </div>

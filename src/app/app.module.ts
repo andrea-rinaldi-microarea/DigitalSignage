@@ -6,6 +6,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { ConnectionStatusComponent } from './ui/connection-status/connection-status.component';
+import { ConnectionService } from './services/connection.service';
 
 
 @NgModule({
@@ -19,7 +20,7 @@ import { ConnectionStatusComponent } from './ui/connection-status/connection-sta
     HttpModule,
     NgbModule
   ],
-  providers: [],
+  providers: [ConnectionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,5 +1,5 @@
+import { ConnectionService, ConnectionStatus } from './services/connection.service';
 import { Component, OnInit } from '@angular/core';
-import { Http } from '@angular/http'
 
 @Component({
   selector: 'app-root',
@@ -7,11 +7,15 @@ import { Http } from '@angular/http'
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  constructor(private _httpService: Http) { }
-  apiValues: string[] = [];
+  
+  connectionStatus: ConnectionStatus = ConnectionStatus.notConnected;
+
+  constructor(private connection: ConnectionService) { }
+
   ngOnInit() {
-     this._httpService.get('/api/values').subscribe(values => {
-        this.apiValues = values.json() as string[];
-     });
+    this.connection.connect().subscribe( status => {
+      this.connectionStatus = status;
+    });
   }
+
 }

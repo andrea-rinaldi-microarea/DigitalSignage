@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { ConnectionStatus } from './../../services/connection.service';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-connection-status',
@@ -6,10 +7,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./connection-status.component.css']
 })
 export class ConnectionStatusComponent implements OnInit {
+  connectionStatus = ConnectionStatus;
 
+  @Input() status: ConnectionStatus;
+  
   constructor() { }
 
   ngOnInit() {
+    console.log(this.status);
   }
+
+  
 
 }
