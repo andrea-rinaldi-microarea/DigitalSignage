@@ -1,10 +1,17 @@
 <nav class="navbar navbar-dark bg-dark">
-  <div>
-    <span class="navbar-brand mb0 h1">
-      Today's menu
-    </span>
+  <span class="navbar-brand mb0 h1">
+    Today's menu
+  </span>
+  <div class="navbar-nav">
   </div>
-  <app-connection-status [status]="connectionStatus" ></app-connection-status>
+  <div class="navbar-nav flex-row ">
+    <div class="nav-item">
+      <app-connection-status [status]="connectionStatus" ></app-connection-status>
+    </div>
+    <div class="nav-item">
+      <i class="text-muted fa fa-cog ml-3 icon-24"></i>
+    </div>
+  </div>
 </nav>
 <div class="container">
   
