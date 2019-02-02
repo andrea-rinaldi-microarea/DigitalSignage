@@ -10,6 +10,7 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
   
   connectionStatus: ConnectionStatus = ConnectionStatus.notConnected;
+  errorMessage: string = null;
 
   constructor(
     private connection: ConnectionService,
@@ -19,6 +20,9 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.connection.connect().subscribe( status => {
       this.connectionStatus = status;
+    }, error => {
+      console.log(error);
+      this.errorMessage = "Connection failed: " + error;
     });
 
   }

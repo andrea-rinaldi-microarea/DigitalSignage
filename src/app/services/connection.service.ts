@@ -24,7 +24,7 @@ export class ConnectionService {
       }, (error) => {
         observer.next(ConnectionStatus.connectionError);
         this._errorMessage = error.statusText + ' - ' + error._body;
-        observer.complete();
+        observer.error(this._errorMessage);
       });
     });
     return connect$;

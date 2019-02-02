@@ -14,5 +14,8 @@
   </div>
 </nav>
 <div class="container">
+  <ngb-alert class="mt-1" *ngIf="errorMessage" type="danger" (close)="errorMessage = null">
+    <strong>Error!</strong> {{errorMessage}}
+  </ngb-alert>
   <button class="btn btn-primary" (click)="onLoadCLicked()">load</button>
 </div>
