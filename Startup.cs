@@ -27,7 +27,8 @@ namespace DigitalSignage
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<AuthenticationToken>();
+            services.AddSingleton<LoginManager>();
+            services.AddDbContext<BurgerChainContext>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.Configure<ConnectInfo>(Configuration.GetSection("ConnectInfo"));
             services.AddSpaStaticFiles( c =>

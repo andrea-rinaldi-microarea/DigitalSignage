@@ -11,24 +11,15 @@ namespace DigitalSignage.Controllers
     public class LoginManagerController : ControllerBase
     {
         private IOptions<ConnectInfo> _connectInfo { get; }
-        private AuthenticationToken _authenticationToken { get; }
+        private LoginManager _loginManager { get; }
 
         public LoginManagerController(
                 IOptions<ConnectInfo> connectInfo,
-                AuthenticationToken authenticationToken
+                LoginManager loginManager
             )
         {
             _connectInfo = connectInfo;
-            _authenticationToken = authenticationToken;
-        }
-
-        private M4LoginManager.MicroareaLoginManagerSoapClient getLoginManager()
-        {
-            M4LoginManager.MicroareaLoginManagerSoapClient m4Login = new M4LoginManager.MicroareaLoginManagerSoapClient(M4LoginManager.MicroareaLoginManagerSoapClient.EndpointConfiguration.MicroareaLoginManagerSoap);
-
-            m4Login.Endpoint.Address = new System.ServiceModel.EndpointAddress($"http://{_connectInfo.Value.Server}/{_connectInfo.Value.Instance}/LoginManager/LoginManager.asmx");
-            
-            return m4Login;
+            _loginManager = loginManager;
         }
 
         private ContentResult loginError(string message)
@@ -44,7 +35,7 @@ namespace DigitalSignage.Controllers
         {
             try 
             {
-                using (M4LoginManager.MicroareaLoginManagerSoapClient m4Login = getLoginManager())
+                using (M4LoginManager.MicroareaLoginManagerSoapClient m4Login = _loginManager.getLoginManager())
                 {
                     var data = await m4Login.IsAliveAsync();
                     return data;
@@ -63,7 +54,7 @@ namespace DigitalSignage.Controllers
         {
             try 
             {
-                using (M4LoginManager.MicroareaLoginManagerSoapClient m4Login = getLoginManager())
+                using (M4LoginManager.MicroareaLoginManagerSoapClient m4Login = _loginManager.getLoginManager())
                 {
                     var data = await m4Login.EnumCompaniesAsync(user);
                     return data;
@@ -99,7 +90,11 @@ namespace DigitalSignage.Controllers
         {
             try 
             {
-                using (M4LoginManager.MicroareaLoginManagerSoapClient m4Login = getLoginManager())
+                if (_loginManager.IsConnected())
+                    await Logout();
+                _loginManager.Reset();
+                
+                using (M4LoginManager.MicroareaLoginManagerSoapClient m4Login = _loginManager.getLoginManager())
                 {
                     M4LoginManager.LoginCompactResponse response = await m4Login.LoginCompactAsync(
                         new M4LoginManager.LoginCompactRequest(
@@ -111,7 +106,7 @@ namespace DigitalSignage.Controllers
                     ));
                     if (response.LoginCompactResult == 0)
                     {
-                        _authenticationToken.Set(response.authenticationToken);
+                        _loginManager.authenticationToken = response.authenticationToken;
                         return true;
                     }
                     else
@@ -129,16 +124,16 @@ namespace DigitalSignage.Controllers
         [HttpPost("logout")]
         public async Task<ActionResult<bool>> Logout()
         {
-            if (!_authenticationToken.IsValid())
+            if (!_loginManager.IsConnected())
             {
                 return loginError("Not logged in");
             }
             try 
             {
-                using (M4LoginManager.MicroareaLoginManagerSoapClient m4Login = getLoginManager())
+                using (M4LoginManager.MicroareaLoginManagerSoapClient m4Login = _loginManager.getLoginManager())
                 {
-                    await m4Login.LogOffAsync(_authenticationToken.Get());
-                    _authenticationToken.Reset();
+                    await m4Login.LogOffAsync(_loginManager.authenticationToken);
+                    _loginManager.Reset();
                     return true;
                 }
             }
