@@ -29,4 +29,8 @@ export class ConnectionService {
     });
     return connect$;
   }
+
+  public disconnect() {
+    this._http.post('/api/loginManager/logout', null);
+  }
 }

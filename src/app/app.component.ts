@@ -1,6 +1,6 @@
 import { MenuService } from './services/menu.service';
 import { ConnectionService, ConnectionStatus } from './services/connection.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { TodayItems } from './models/today-items';
 
 @Component({
@@ -8,7 +8,7 @@ import { TodayItems } from './models/today-items';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   
   connectionStatus: ConnectionStatus = ConnectionStatus.notConnected;
   errorMessage: string = null;
@@ -33,4 +33,13 @@ export class AppComponent implements OnInit {
       console.log(items);
     })
   }
+
+  @HostListener('window:beforeunload', ['$event'])
+    unloadNotification($event: any) {
+        this.connection.disconnect();
+    }
+
+    ngOnDestroy() {
+      this.connection.disconnect();
+    }
 }
