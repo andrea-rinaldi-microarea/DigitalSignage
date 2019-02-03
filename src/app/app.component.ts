@@ -1,6 +1,7 @@
 import { MenuService } from './services/menu.service';
 import { ConnectionService, ConnectionStatus } from './services/connection.service';
 import { Component, OnInit } from '@angular/core';
+import { TodayItems } from './models/today-items';
 
 @Component({
   selector: 'app-root',
@@ -27,9 +28,9 @@ export class AppComponent implements OnInit {
 
   }
 
-  onLoadCLicked() {
-    this.menu.load().subscribe( value => {
-      console.log(value);
+  onTodayItemsClicked() {
+    this.menu.todayItems().subscribe( (items: TodayItems) => {
+      console.log(items);
     })
   }
 }

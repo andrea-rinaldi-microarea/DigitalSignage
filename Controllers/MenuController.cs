@@ -18,15 +18,24 @@ namespace DigitalSignage.Controllers
         }
 
         // GET api/values
-        [HttpGet("headers")]
-        public ActionResult<List<ZcMenuHeader>> GetHeaders()
-        {
+        [HttpGet("todayItems")]
+        public ActionResult<List<TodayItems>> GetTodayItems(string date)
+        {                                              
             try
-            {
+            {                                              //2011-10-05T14:48:00.000Z
+                DateTime dtDate = DateTime.ParseExact(date, "yyyy-MM-ddTHH:mm:ss.fffZ",System.Globalization.CultureInfo.InvariantCulture);            
+                int day = 1; //@@todo some logic to extract menu code and day
                 if (!_context.IsValid())
                     throw new InvalidOperationException("The DB connection is not properly set.");
 
-                return _context.ZcMenuHeader.ToList();
+                var todayItems = _context.ZcMenuDetail.Where(i => i.Day == day)
+                    .Select(i => new TodayItems {
+                        Description = i.Description,
+                        SalesPrice = i.SalesPrice,
+                        Picture = i.Picture
+                    }).ToList();
+                
+                return todayItems;
             }
             catch (Exception e)
             {

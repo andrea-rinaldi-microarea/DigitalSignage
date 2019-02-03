@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export enum ConnectionStatus { notConnected, connecting, connected, connectionError }
@@ -11,19 +11,19 @@ export class ConnectionService {
 
   private _errorMessage : string;
 
-  constructor(private _http: Http) { }
+  constructor(private _http: HttpClient) { }
 
   public connect(): Observable<ConnectionStatus> {
     var connect$ = new Observable<ConnectionStatus>( (observer) => {
       observer.next(ConnectionStatus.connecting);
       this._http.post('/api/loginManager/login', null).subscribe(result => {
-        var ok: boolean = result.json() as boolean;
+        var ok: boolean = result as boolean;
         observer.next(ok ? ConnectionStatus.connected : ConnectionStatus.connectionError);
         this._errorMessage = "Login failed";
         observer.complete();
       }, (error) => {
         observer.next(ConnectionStatus.connectionError);
-        this._errorMessage = error.statusText + ' - ' + error._body;
+        this._errorMessage = error.statusText + ' - ' + error.error;
         observer.error(this._errorMessage);
       });
     });
