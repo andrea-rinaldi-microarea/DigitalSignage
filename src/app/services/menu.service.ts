@@ -12,7 +12,7 @@ export class MenuService {
 
   public todayItems(): Observable<TodayItems> {
     var today = new Date().toISOString();
-    let params = new HttpParams().set("dae", today);
+    let params = new HttpParams().set("date", today);
     var items$ = new Observable<TodayItems>( observer => {
       this._http.get('/api/menu/todayItems', {params: params}).subscribe( response => {
         var items = response as TodayItems;
