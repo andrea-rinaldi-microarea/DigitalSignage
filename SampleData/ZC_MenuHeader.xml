@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<DataTables>
+  <ZC_MenuHeader MenuheaderCode="18KW44" Week="0" FromDate="2018-09-13T00:00:00+02:00" ToDate="2018-09-20T00:00:00+02:00" Description="Menü Kalenderwoche 44" Storage="100" TBCreated="2018-09-26T10:22:19.54+02:00" TBCreatedID="1" TBGuid="8d5405dc-dd5f-4d71-ae82-314a62ae57bd" Background="" />
+  <ZC_MenuHeader MenuheaderCode="19KW02" Week="2" FromDate="2019-01-07T00:00:00+01:00" ToDate="2019-01-14T00:00:00+01:00" Description="asdfads" Storage="100" TBCreated="2019-01-07T11:56:26.32+01:00" TBCreatedID="2" TBGuid="44bf575f-bb93-4393-956a-8878d5eb6664" Background="" />
+  <ZC_MenuHeader MenuheaderCode="19KW03" Week="3" FromDate="2019-01-16T00:00:00+01:00" ToDate="2019-01-23T00:00:00+01:00" Description="Test JJ" Storage="" TBCreated="2019-01-16T08:59:37.253+01:00" TBCreatedID="2" TBGuid="505ecee3-60a8-42b4-8eec-9488c7f9649f" Background="" />
+  <ZC_MenuHeader MenuheaderCode="19KW06" Week="6" FromDate="2019-02-04T00:00:00+01:00" ToDate="2019-02-10T00:00:00+01:00" Description="Menu Week 6" Storage="100" TBCreated="2019-02-04T11:01:32.463+01:00" TBCreatedID="0" TBGuid="c7859d42-3f6d-475e-be37-14c340675a7b" Background="" />
+</DataTables>
