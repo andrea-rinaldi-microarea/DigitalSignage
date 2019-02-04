@@ -14,8 +14,21 @@
   </div>
 </nav>
 <div class="container">
-  <ngb-alert class="mt-1" *ngIf="errorMessage" type="danger" (close)="errorMessage = null">
-    <strong>Error!</strong> {{errorMessage}}
-  </ngb-alert>
-  <button class="btn btn-primary" (click)="onTodayItemsClicked()">today's menu</button>
+  <div class="row">
+    <ngb-alert class="mt-1" *ngIf="errorMessage" type="danger" (close)="errorMessage = null">
+      <strong>Error!</strong> {{errorMessage}}
+    </ngb-alert>
+  </div>
+  <div class="row">
+    <button class="btn btn-primary" (click)="onTodayItemsClicked()">today's menu</button>
+  </div>
+  <div class="row">
+    <div *ngFor="let item of items" class="card" style="width: 18rem;">
+      <img src="{{imageURL(item.picture)}}" class="card-img-top">
+      <div class="card-body">
+        <h5 class="card-title">Menu #{{item.menuId}}</h5>
+        <p class="card-text">{{item.description}}</p>
+      </div>
+    </div>
+  </div>
 </div>

@@ -10,17 +10,22 @@ export class MenuService {
 
   constructor(private _http: HttpClient) { }
 
-  public todayItems(): Observable<TodayItems> {
+  public todayItems(): Observable<TodayItems[]> {
     var today = new Date();
     today.setDate(today.getDate() + 2);
     let params = new HttpParams().set("date", today.toISOString());
-    var items$ = new Observable<TodayItems>( observer => {
+    var items$ = new Observable<TodayItems[]>( observer => {
       this._http.get('/api/menu/todayItems', {params: params}).subscribe( response => {
-        var items = response as TodayItems;
+        var items = response as TodayItems[];
         observer.next(items);
         observer.complete();
       });
     });
     return items$;
+  }
+
+  public imageURL(namespace: string) {
+    //@@ TODO invoke back-end service
+    return "/assets/images/" + namespace;
   }
 }

@@ -32,9 +32,10 @@ namespace DigitalSignage.Controllers
 
                 var todayItems = _context.ZcMenuDetail.Where(i => i.Day == day && i.MenuheaderCode == menuCode)
                     .Select(i => new TodayItems {
+                        MenuId = i.MenuId,
                         Description = i.Description,
                         SalesPrice = i.SalesPrice,
-                        Picture = i.Picture
+                        Picture = i.Picture,
                     }).ToList();
                 
                 return todayItems;

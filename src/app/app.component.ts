@@ -12,6 +12,7 @@ export class AppComponent implements OnInit, OnDestroy {
   
   connectionStatus: ConnectionStatus = ConnectionStatus.notConnected;
   errorMessage: string = null;
+  items: TodayItems[];
 
   constructor(
     private connection: ConnectionService,
@@ -29,9 +30,14 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onTodayItemsClicked() {
-    this.menu.todayItems().subscribe( (items: TodayItems) => {
+    this.menu.todayItems().subscribe( (items: TodayItems[]) => {
+      this.items = items;
       console.log(items);
     })
+  }
+
+  imageURL(namespace: string) {
+    return this.menu.imageURL(namespace);
   }
 
   @HostListener('window:beforeunload', ['$event'])
