@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { TodayItems } from '../models/today-items';
+import { MenuItem } from '../models/menu-item';
 
 @Injectable({
   providedIn: 'root'
@@ -10,13 +10,13 @@ export class MenuService {
 
   constructor(private _http: HttpClient) { }
 
-  public todayItems(): Observable<TodayItems[]> {
+  public todayItems(): Observable<MenuItem[]> {
     var today = new Date();
-    today.setDate(today.getDate() + 2);
+    today.setDate(today.getDate() + 1);
     let params = new HttpParams().set("date", today.toISOString());
-    var items$ = new Observable<TodayItems[]>( observer => {
+    var items$ = new Observable<MenuItem[]>( observer => {
       this._http.get('/api/menu/todayItems', {params: params}).subscribe( response => {
-        var items = response as TodayItems[];
+        var items = response as MenuItem[];
         observer.next(items);
         observer.complete();
       });

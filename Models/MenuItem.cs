@@ -1,6 +1,6 @@
 namespace DigitalSignage.Models
 {
-    public class TodayItems {
+    public class MenuItem {
         public int MenuId {get;set;}
         public string Description {get;set;}
         public double? SalesPrice {get;set;}

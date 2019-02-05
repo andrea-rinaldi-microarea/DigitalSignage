@@ -19,7 +19,7 @@ namespace DigitalSignage.Controllers
 
         // GET api/values
         [HttpGet("todayItems")]
-        public ActionResult<List<TodayItems>> GetTodayItems(string date)
+        public ActionResult<List<MenuItem>> GetTodayItems(string date)
         {                                              
             try
             {                                              //2011-10-05T14:48:00.000Z
@@ -31,7 +31,7 @@ namespace DigitalSignage.Controllers
                     throw new InvalidOperationException("The DB connection is not properly set.");
 
                 var todayItems = _context.ZcMenuDetail.Where(i => i.Day == day && i.MenuheaderCode == menuCode)
-                    .Select(i => new TodayItems {
+                    .Select(i => new MenuItem {
                         MenuId = i.MenuId,
                         Description = i.Description,
                         SalesPrice = i.SalesPrice,

@@ -1,7 +1,7 @@
 import { MenuService } from './services/menu.service';
 import { ConnectionService, ConnectionStatus } from './services/connection.service';
 import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
-import { TodayItems } from './models/today-items';
+import { MenuItem } from './models/menu-item';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +12,7 @@ export class AppComponent implements OnInit, OnDestroy {
   
   connectionStatus: ConnectionStatus = ConnectionStatus.notConnected;
   errorMessage: string = null;
-  items: TodayItems[];
+  items: MenuItem[];
 
   constructor(
     private connection: ConnectionService,
@@ -30,7 +30,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onTodayItemsClicked() {
-    this.menu.todayItems().subscribe( (items: TodayItems[]) => {
+    this.menu.todayItems().subscribe( (items: MenuItem[]) => {
       this.items = items;
       console.log(items);
     })
