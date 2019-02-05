@@ -35,7 +35,37 @@ namespace DigitalSignage.Controllers
                         MenuId = i.MenuId,
                         Description = i.Description,
                         SalesPrice = i.SalesPrice,
+                        Picture = i.Picture
+                    }).ToList();
+                
+                return todayItems;
+            }
+            catch (Exception e)
+            {
+                ContentResult err = Content(e.Message);
+                err.StatusCode = 500;
+                return err;
+            }
+        }
+
+        // GET api/values
+        [HttpGet("weekItems")]
+        public ActionResult<List<MenuItem>> GetWeekItems(string date)
+        {                                              
+            try
+            {                                             
+                string menuCode = "19KW06"; //@@todo some logic to extract menu code from the date
+
+                if (!_context.IsValid())
+                    throw new InvalidOperationException("The DB connection is not properly set.");
+
+                var todayItems = _context.ZcMenuDetail.Where(i => i.MenuheaderCode == menuCode)
+                    .Select(i => new MenuItem {
+                        MenuId = i.MenuId,
+                        Description = i.Description,
+                        SalesPrice = i.SalesPrice,
                         Picture = i.Picture,
+                        Day = i.Day
                     }).ToList();
                 
                 return todayItems;

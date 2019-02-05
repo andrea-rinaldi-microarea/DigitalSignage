@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuItem } from '../../models/menu-item';
+import { MenuService } from '../../services/menu.service';
 
 @Component({
   selector: 'app-weekly-menu',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WeeklyMenuComponent implements OnInit {
 
-  constructor() { }
+  items: MenuItem[];
+  
+  constructor(private menu: MenuService) { }
 
   ngOnInit() {
+    this.menu.weekItems().subscribe( (items: MenuItem[]) => {
+      this.items = items;
+      console.log(items);
+    });
   }
 
 }

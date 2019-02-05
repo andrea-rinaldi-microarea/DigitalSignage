@@ -24,6 +24,19 @@ export class MenuService {
     return items$;
   }
 
+  public weekItems(): Observable<MenuItem[]> {
+    var today = new Date();
+    let params = new HttpParams().set("date", today.toISOString());
+    var items$ = new Observable<MenuItem[]>( observer => {
+      this._http.get('/api/menu/weekItems', {params: params}).subscribe( response => {
+        var items = response as MenuItem[];
+        observer.next(items);
+        observer.complete();
+      });
+    });
+    return items$;
+  }
+
   public imageURL(namespace: string) {
     //@@ TODO invoke back-end service
     return "/assets/images/" + namespace;
