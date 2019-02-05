@@ -21,7 +21,6 @@ export class AppComponent implements OnInit, OnDestroy {
       console.log(error);
       this.errorMessage = "Connection failed: " + error;
     });
-
   }
 
   @HostListener('window:beforeunload', ['$event'])
