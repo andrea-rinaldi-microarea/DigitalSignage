@@ -17,6 +17,7 @@ export class ConnectionService {
   constructor(private _http: HttpClient) { 
     this._status$ = new Subject<ConnectionStatus>();
     this.status$ = this._status$.asObservable();
+    this._status$.next(ConnectionStatus.notConnected);
   }
 
   public connect(): Observable<ConnectionStatus> {
