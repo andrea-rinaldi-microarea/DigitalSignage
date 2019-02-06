@@ -49,8 +49,8 @@ namespace DigitalSignage.Controllers
         }
 
         // GET api/values
-        [HttpGet("weekItems")]
-        public ActionResult<List<MenuItem>> GetWeekItems(string date)
+        [HttpGet("weekMenu")]
+        public ActionResult<WeeklyMenu> GetWeekMenu(string date)
         {                                              
             try
             {                                             
@@ -59,16 +59,26 @@ namespace DigitalSignage.Controllers
                 if (!_context.IsValid())
                     throw new InvalidOperationException("The DB connection is not properly set.");
 
-                var todayItems = _context.ZcMenuDetail.Where(i => i.MenuheaderCode == menuCode)
-                    .Select(i => new MenuItem {
-                        MenuId = i.MenuId,
-                        Description = i.Description,
-                        SalesPrice = i.SalesPrice,
-                        Picture = i.Picture,
-                        Day = i.Day
-                    }).ToList();
+                var weekMenu = _context.ZcMenuHeader.Where(h => h.MenuheaderCode == menuCode)
+                    .Select(w => new WeeklyMenu {
+                        Background = w.Background
+                    }).Single();
+                weekMenu.Days = new DailyMenu[7];
+                for (int day = 0; day <= 6; day++)
+                {
+                    DailyMenu todayMenu = new DailyMenu();
+                    todayMenu.name = Enum.GetName(typeof(DayOfWeek), day);
+                    todayMenu.Items = _context.ZcMenuDetail.Where(i => i.Day == day && i.MenuheaderCode == menuCode)
+                        .Select(i => new MenuItem {
+                            MenuId = i.MenuId,
+                            Description = i.Description,
+                            SalesPrice = i.SalesPrice,
+                            Picture = i.Picture
+                        }).ToArray();
+                    weekMenu.Days[day] = todayMenu;
+                }
                 
-                return todayItems;
+                return weekMenu;
             }
             catch (Exception e)
             {

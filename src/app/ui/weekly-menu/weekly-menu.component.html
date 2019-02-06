@@ -1,8 +1,18 @@
 <div class="row">
-  <ul>
-    <li *ngFor="let item of items">
-      {{item.menuId}} - {{item.day}} : {{item.description}}
-    </li>
-  </ul>
+  <table *ngIf="week" class="table">
+    <th></th>
+    <th *ngFor="let day of week.days">{{day.name}}</th>
+    <tr *ngFor="let menu of [0,1,2]">
+      <td>#{{menu+1}}</td>
+      <td *ngFor="let day of week.days">
+        <div *ngIf="day.items[menu]" class="card">
+          <img src="{{imageURL(day.items[menu].picture)}}" class="card-img-top">
+          <div class="card-body">
+            <p class="card-text">{{day.items[menu].description}}</p>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
 </div>
   

@@ -15,7 +15,7 @@ import { WeeklyMenuComponent } from './ui/weekly-menu/weekly-menu.component';
 const ROUTES = [
   {
     path: '',
-    redirectTo: 'daily',
+    redirectTo: 'weekly',
     pathMatch: 'full'
   },
   {

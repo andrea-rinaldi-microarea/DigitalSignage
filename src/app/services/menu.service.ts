@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { MenuItem } from '../models/menu-item';
+import { WeeklyMenu } from '../models/weekly-menu';
 
 @Injectable({
   providedIn: 'root'
@@ -24,17 +25,17 @@ export class MenuService {
     return items$;
   }
 
-  public weekItems(): Observable<MenuItem[]> {
+  public weekMenu(): Observable<WeeklyMenu> {
     var today = new Date();
     let params = new HttpParams().set("date", today.toISOString());
-    var items$ = new Observable<MenuItem[]>( observer => {
-      this._http.get('/api/menu/weekItems', {params: params}).subscribe( response => {
-        var items = response as MenuItem[];
-        observer.next(items);
+    var menu$ = new Observable<WeeklyMenu>( observer => {
+      this._http.get('/api/menu/weekMenu', {params: params}).subscribe( response => {
+        var menu = response as WeeklyMenu;
+        observer.next(menu);
         observer.complete();
       });
     });
-    return items$;
+    return menu$;
   }
 
   public imageURL(namespace: string) {

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MenuItem } from '../../models/menu-item';
 import { MenuService } from '../../services/menu.service';
 import { ConnectionService, ConnectionStatus } from '../../services/connection.service';
+import { WeeklyMenu } from '../../models/weekly-menu';
 
 @Component({
   selector: 'app-weekly-menu',
@@ -10,7 +11,7 @@ import { ConnectionService, ConnectionStatus } from '../../services/connection.s
 })
 export class WeeklyMenuComponent implements OnInit {
 
-  items: MenuItem[];
+  week: WeeklyMenu;
   
   constructor(
     private menu: MenuService,
@@ -21,15 +22,19 @@ export class WeeklyMenuComponent implements OnInit {
     this.connection.status$.subscribe(status => {
       console.log(status);
       if (status == ConnectionStatus.connected) {
-        this.menu.weekItems().subscribe( (items: MenuItem[]) => {
-          this.items = items;
-          console.log(items);
+        this.menu.weekMenu().subscribe( (week: WeeklyMenu) => {
+          this.week = week;
+          console.log(week);
         });
       }
     }, error => {
       console.log('errors')
     })
 
+  }
+
+  imageURL(namespace: string) {
+    return this.menu.imageURL(namespace);
   }
 
 }
