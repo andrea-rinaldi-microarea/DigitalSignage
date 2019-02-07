@@ -1,7 +1,43 @@
+.table td .col-1st, .table th .col-1st {
+    width: 1%;
+}
+table td:first-child, table th:first-child {
+    width: 1%;
+    vertical-align: middle;
+}
+
 .table th, .table td {
     padding: 0.25rem;
+    width: 12%;
 }
 
 .card {
-    width: 11rem;
+    height: 22rem;
+    font: 90%;
 }
+
+.card-body {
+    padding: 0.75rem;
+    font-size:95%
+}
+
+.ovr-image { 
+    position: relative; 
+    width: 100%; /* for IE 6 */
+ }
+ 
+ h2 {
+    position: absolute; 
+    bottom: 5px; 
+    right: 5px; 
+
+ }
+
+ h2 .ovr-text { 
+    color: white; 
+   font: bold 24px/45px Helvetica, Sans-Serif; 
+   letter-spacing: -1px;  
+   background: rgb(0, 0, 0); /* fallback color */
+   background: rgba(0, 0, 0, 0.7);
+   padding: 10px;
+ }

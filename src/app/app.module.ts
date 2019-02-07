@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -42,6 +42,7 @@ const ROUTES = [
     RouterModule.forRoot(ROUTES),
     NgbModule
   ],
+  // providers: [ConnectionService, MenuService, { provide: LOCALE_ID, useValue: 'de' }],
   providers: [ConnectionService, MenuService],
   bootstrap: [AppComponent]
 })

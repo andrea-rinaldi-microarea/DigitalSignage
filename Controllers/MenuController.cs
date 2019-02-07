@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using DigitalSignage.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -67,7 +68,11 @@ namespace DigitalSignage.Controllers
                 for (int day = 0; day <= 6; day++)
                 {
                     DailyMenu todayMenu = new DailyMenu();
-                    todayMenu.name = Enum.GetName(typeof(DayOfWeek), day);
+
+                    var cultureInfo = new CultureInfo( "de-DE" );
+                    var dateTimeInfo = cultureInfo.DateTimeFormat;
+                    todayMenu.name = dateTimeInfo.GetDayName((DayOfWeek) day );
+
                     todayMenu.Items = _context.ZcMenuDetail.Where(i => i.Day == day && i.MenuheaderCode == menuCode)
                         .Select(i => new MenuItem {
                             MenuId = i.MenuId,
