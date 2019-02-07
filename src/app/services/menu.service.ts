@@ -38,8 +38,15 @@ export class MenuService {
     return menu$;
   }
 
-  public imageURL(namespace: string) {
-    //@@ TODO invoke back-end service
-    return "/assets/images/" + namespace;
+  public imageURL(namespace: string): Observable<string> {
+    console.log("imageURL " + namespace);
+    let params = new HttpParams().set("nmspace", namespace);
+    let url$ = new Observable<string> (observer => {
+      this._http.get('/api/menu/imageURL', {params: params}).subscribe( response => {
+        observer.next(response["url"]);
+        observer.complete();
+      });
+    });
+    return url$;
   }
 }

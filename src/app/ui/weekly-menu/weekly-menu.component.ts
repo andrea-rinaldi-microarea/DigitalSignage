@@ -3,6 +3,7 @@ import { MenuItem } from '../../models/menu-item';
 import { MenuService } from '../../services/menu.service';
 import { ConnectionService, ConnectionStatus } from '../../services/connection.service';
 import { WeeklyMenu } from '../../models/weekly-menu';
+import { DailyMenu } from '../../models/daily-menu';
 
 @Component({
   selector: 'app-weekly-menu',
@@ -12,6 +13,7 @@ import { WeeklyMenu } from '../../models/weekly-menu';
 export class WeeklyMenuComponent implements OnInit {
 
   week: WeeklyMenu;
+  days: DailyMenu[];
   
   constructor(
     private menu: MenuService,
@@ -24,6 +26,13 @@ export class WeeklyMenuComponent implements OnInit {
       if (status == ConnectionStatus.connected) {
         this.menu.weekMenu().subscribe( (week: WeeklyMenu) => {
           this.week = week;
+          var days = week.days.forEach(day => { 
+            day.items.forEach(item => {
+              this.menu.imageURL(item.picture).subscribe( url => {
+                item["imageURL"] = url;
+              });
+            })
+          });
           console.log(week);
         });
       }
@@ -31,10 +40,6 @@ export class WeeklyMenuComponent implements OnInit {
       console.log('errors')
     })
 
-  }
-
-  imageURL(namespace: string) {
-    return this.menu.imageURL(namespace);
   }
 
 }

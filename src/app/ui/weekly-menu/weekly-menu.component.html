@@ -8,7 +8,7 @@
         <div *ngIf="day.items[menu]" class="card">
           <!-- <img src="{{imageURL(day.items[menu].picture)}}" class="card-img-top"> -->
           <div class="ovr-image">
-              <img src="{{imageURL(day.items[menu].picture)}}"  class="card-img-top">
+              <img src="{{day.items[menu].imageURL}}"  class="card-img-top">
               <h2><span class="ovr-text">&euro; {{day.items[menu].salesPrice | number:'.2-2'}}</span></h2>
             </div>          
           <div class="card-body">

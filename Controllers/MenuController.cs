@@ -12,6 +12,7 @@ namespace DigitalSignage.Controllers
     public class MenuController : ControllerBase
     {
         private readonly BurgerChainContext _context;
+        private readonly object url = new object();
 
         public MenuController(BurgerChainContext context)
         {
@@ -49,7 +50,6 @@ namespace DigitalSignage.Controllers
             }
         }
 
-        // GET api/values
         [HttpGet("weekMenu")]
         public ActionResult<WeeklyMenu> GetWeekMenu(string date)
         {                                              
@@ -91,6 +91,15 @@ namespace DigitalSignage.Controllers
                 err.StatusCode = 500;
                 return err;
             }
+        }
+
+        [HttpGet("imageURL")]
+        public ActionResult<object> GetImageURL(string nmspace)
+        {     
+            if (System.IO.File.Exists($"SampleData\\{nmspace}"))
+                return new { url = "/assets/images/" + nmspace };
+            else
+                return new { url = "/assets/no-image.jpg" };
         }
     }
 }
