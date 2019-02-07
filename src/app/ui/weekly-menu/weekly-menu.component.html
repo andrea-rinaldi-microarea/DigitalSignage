@@ -2,7 +2,7 @@
   <table *ngIf="week" class="table">
     <th></th>
     <th *ngFor="let day of week.days">{{day.name}}</th>
-    <tr *ngFor="let menu of [0,1,2]">
+    <tr *ngFor="let menu of [0,1]">
       <td>#{{menu+1}}</td>
       <td *ngFor="let day of week.days">
         <div *ngIf="day.items[menu]" class="card">
