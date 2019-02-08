@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuItem } from '../../models/menu-item';
 import { MenuService } from '../../services/menu.service';
 import { ConnectionService, ConnectionStatus } from '../../services/connection.service';
 import { WeeklyMenu } from '../../models/weekly-menu';
-import { DailyMenu } from '../../models/daily-menu';
 
 @Component({
   selector: 'app-weekly-menu',
@@ -13,7 +11,6 @@ import { DailyMenu } from '../../models/daily-menu';
 export class WeeklyMenuComponent implements OnInit {
 
   week: WeeklyMenu;
-  days: DailyMenu[];
   
   constructor(
     private menu: MenuService,
