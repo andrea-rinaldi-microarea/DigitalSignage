@@ -12,7 +12,7 @@ export class AppComponent implements OnInit, OnDestroy {
   
   connectionStatus: ConnectionStatus = ConnectionStatus.notConnected;
   errorMessage: string = null;
-  currentPage: string = "";
+  currentPage: string = '/weekly';
 
   constructor(
     private connection: ConnectionService,
@@ -36,7 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
   
   onChangePage() {
-    this.router.navigateByUrl(this.currentPage === '/weekly' ? '/daily' : '/weekly');
+    this.router.navigateByUrl(this.currentPage === '/weekly' || this.currentPage === '/' ? '/daily' : '/weekly');
   }
 
   @HostListener('window:beforeunload', ['$event'])
