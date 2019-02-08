@@ -18,25 +18,30 @@ export class WeeklyMenuComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.connection.status$.subscribe(status => {
-      console.log(status);
-      if (status == ConnectionStatus.connected) {
-        this.menu.weekMenu().subscribe( (week: WeeklyMenu) => {
-          this.week = week;
-          var days = week.days.forEach(day => { 
-            day.items.forEach(item => {
-              this.menu.imageURL(item.picture).subscribe( url => {
-                item["imageURL"] = url;
-              });
-            })
-          });
-          console.log(week);
-        });
-      }
-    }, error => {
-      console.log('errors')
-    })
-
+    if (this.connection.status == ConnectionStatus.connected) {
+      this.downloadMenus();
+    } else {
+      this.connection.status$.subscribe(status => {
+        console.log(status);
+        if (status == ConnectionStatus.connected) {
+          this.downloadMenus();
+        }
+      });
+    }
   }
 
+  private downloadMenus() {
+    this.menu.weekMenu().subscribe( (week: WeeklyMenu) => {
+      this.week = week;
+      var days = week.days.forEach(day => { 
+        day.items.forEach(item => {
+          this.menu.imageURL(item.picture).subscribe( url => {
+            item["imageURL"] = url;
+          });
+        })
+      });
+      console.log(week);
+    });
+  }
+  
 }

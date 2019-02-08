@@ -18,22 +18,28 @@ export class DailyMenuComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.connection.status$.subscribe(status => {
-      console.log(status);
-      if (status == ConnectionStatus.connected) {
-        this.menu.todayItems().subscribe( (items: MenuItem[]) => {
-          this.items = items;
-          console.log(items);
+    if (this.connection.status == ConnectionStatus.connected) {
+      this.downloadMenus();
+    } else {
+      this.connection.status$.subscribe(status => {
+        console.log(status);
+        if (status == ConnectionStatus.connected) {
+          this.downloadMenus();
+        }
+      })
+    }
+  }
+
+  private downloadMenus() {
+    this.menu.todayItems().subscribe( (items: MenuItem[]) => {
+      this.items = items;
+      this.items.forEach(item => {
+        this.menu.imageURL(item.picture).subscribe( url => {
+          item["imageURL"] = url;
         });
-      }
-    }, error => {
-      console.log('errors')
-    })
+      })
+      console.log(items);
+    });
   }
-
-  imageURL(namespace: string) {
-    return this.menu.imageURL(namespace);
-  }
-
 
 }
