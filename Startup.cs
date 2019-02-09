@@ -28,6 +28,7 @@ namespace DigitalSignage
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<LoginManager>();
+            services.AddSingleton<TbServices>();
             services.AddDbContext<BurgerChainContext>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.Configure<ConnectInfo>(Configuration.GetSection("ConnectInfo"));

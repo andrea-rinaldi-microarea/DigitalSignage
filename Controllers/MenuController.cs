@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using DigitalSignage.Models;
+using DigitalSignage.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DigitalSignage.Controllers
@@ -12,11 +14,15 @@ namespace DigitalSignage.Controllers
     public class MenuController : ControllerBase
     {
         private readonly BurgerChainContext _context;
-        private readonly object url = new object();
+        private readonly TbServices _tbServices;
 
-        public MenuController(BurgerChainContext context)
+        public MenuController(
+            BurgerChainContext context,
+            TbServices tbServices
+        )
         {
             _context = context;
+            _tbServices = tbServices;
         }
 
         // GET api/values
@@ -96,10 +102,41 @@ namespace DigitalSignage.Controllers
         [HttpGet("imageURL")]
         public ActionResult<object> GetImageURL(string nmspace)
         {     
-            if (System.IO.File.Exists($"SampleData\\{nmspace}"))
-                return new { url = "/assets/images/" + nmspace };
-            else
-                return new { url = "/assets/no-image.jpg" };
+            string root = "src"; //@@TODO production?
+            try
+            {
+                if  (
+                        System.IO.File.Exists(Path.Combine(root,"cache",nmspace)) ||
+                        _tbServices.downloadImage(nmspace, Path.Combine(root,"cache"))
+                    )
+                    return new { url = "/cache/" + nmspace };
+                else
+                    return new { url = "/assets/no-image.jpg" };
+            }
+            catch (Exception e)
+            {
+                ContentResult err = Content(e.Message);
+                err.StatusCode = 500;
+                return err;
+            }
         }
+
+        [HttpGet("imageDownload")]
+        public ActionResult<bool> ImageDownload(string nmspace)
+        {   
+            string root = "src"; //@@TODO production?
+            try
+            {
+                _tbServices.downloadImage(nmspace, Path.Combine(root,"cache"));
+            }
+            catch (Exception e)
+            {
+                ContentResult err = Content(e.Message);
+                err.StatusCode = 500;
+                return err;
+            }
+            return true;  
+        }
+
     }
 }
