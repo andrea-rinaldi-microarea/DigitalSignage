@@ -6,6 +6,7 @@
 /tmp
 /out-tsc
 /wwwroot
+/src/cache
 
 # dependencies
 /node_modules

@@ -102,7 +102,7 @@ namespace DigitalSignage.Controllers
         [HttpGet("imageURL")]
         public ActionResult<object> GetImageURL(string nmspace)
         {     
-            string root = "src"; //@@TODO production?
+            string root = Directory.Exists("wwwroot") ? "wwwroot" : "src"; 
             try
             {
                 if  (
@@ -119,23 +119,6 @@ namespace DigitalSignage.Controllers
                 err.StatusCode = 500;
                 return err;
             }
-        }
-
-        [HttpGet("imageDownload")]
-        public ActionResult<bool> ImageDownload(string nmspace)
-        {   
-            string root = "src"; //@@TODO production?
-            try
-            {
-                _tbServices.downloadImage(nmspace, Path.Combine(root,"cache"));
-            }
-            catch (Exception e)
-            {
-                ContentResult err = Content(e.Message);
-                err.StatusCode = 500;
-                return err;
-            }
-            return true;  
         }
 
     }
