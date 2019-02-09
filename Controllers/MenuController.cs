@@ -105,6 +105,9 @@ namespace DigitalSignage.Controllers
             string root = Directory.Exists("wwwroot") ? "wwwroot" : "src"; 
             try
             {
+                if (nmspace == string.Empty)
+                    return new { url = "/assets/no-image.jpg" };
+
                 if  (
                         System.IO.File.Exists(Path.Combine(root,"cache",nmspace)) ||
                         _tbServices.downloadImage(nmspace, Path.Combine(root,"cache"))
