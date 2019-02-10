@@ -36,7 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
   
   onChangePage() {
-    this.router.navigateByUrl(this.currentPage === '/weekly' || this.currentPage === '/' ? '/daily' : '/weekly');
+    this.router.navigateByUrl(this.currentPage === '/daily' ? '/weekly' : '/daily');
   }
 
   @HostListener('window:beforeunload', ['$event'])
